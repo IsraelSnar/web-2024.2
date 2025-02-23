@@ -1,4 +1,6 @@
-let json_dat
+let json_dat;
+let paginaAtual = 1; // Página inicial
+let itensPorPagina = 10;
 
 async function pegar() {
     let data;
@@ -11,15 +13,24 @@ async function pegar() {
         }
 
         json_dat = JSON.parse(await data.json());
+
+        atualizarTabela();
+        atualizarPaginacao();
     } catch (error) {
         console.error('deu ruim: ' + error.message);
     }
+}
 
+function atualizarTabela() {
     const tabela = document.getElementById('table_data').getElementsByTagName('tbody')[0];
+    // tabela.innerHTML = ''; 
 
-    tabela.innerHTML = '';
+    // Páginas são baseadas no índice, então calculamos o intervalo de dados a exibir
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim = Math.min(inicio + itensPorPagina, json_dat.length);
 
-    json_dat.forEach(item => {
+    for (let i = inicio; i < fim; i++) {
+        const item = json_dat[i];
         const linha = document.createElement('tr');
 
         const celulaNome = document.createElement('td');
@@ -40,10 +51,48 @@ async function pegar() {
         linha.appendChild(celulaSalario);
 
         tabela.appendChild(linha);
-    });
+    }
 }
 
-pegar()
+// Função para atualizar os controles de navegação
+function atualizarPaginacao() {
+    const totalPaginas = Math.ceil(json_dat.length / itensPorPagina);
+
+    // Exibir número da página atual
+    document.getElementById('paginaAtual').textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+
+    // Desabilitar botão "Anterior" se estiver na primeira página
+    document.getElementById('prevBtn').disabled = paginaAtual === 1;
+
+    // Desabilitar botão "Próxima" se estiver na última página
+    document.getElementById('nextBtn').disabled = paginaAtual === totalPaginas;
+}
+
+// Função para mudar a página
+function mudarPagina(direcao) {
+    const totalPaginas = Math.ceil(json_dat.length / itensPorPagina);
+    if (direcao === 'prev' && paginaAtual > 1) {
+        paginaAtual--;
+    } else if (direcao === 'next' && paginaAtual < totalPaginas) {
+        paginaAtual++;
+    }
+    atualizarTabela();
+    atualizarPaginacao();
+}
+
+// Função para alterar a quantidade de itens por página
+function alterarItensPorPagina() {
+    itensPorPagina = parseInt(document.getElementById('itensPorPagina').value);
+    paginaAtual = 1; // Resetar para a primeira página
+    atualizarTabela();
+    atualizarPaginacao();
+}
+
+// Adicionar eventos aos botões de navegação
+document.getElementById('prevBtn').addEventListener('click', () => mudarPagina('prev'));
+document.getElementById('nextBtn').addEventListener('click', () => mudarPagina('next'));
+document.getElementById('itensPorPagina').addEventListener('change', alterarItensPorPagina);
+
 
 document.addEventListener('DOMContentLoaded', function () {
     pegar();
