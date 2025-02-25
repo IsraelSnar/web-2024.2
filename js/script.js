@@ -23,7 +23,7 @@ async function pegar() {
 
 function atualizarTabela() {
     const tabela = document.getElementById('table_data').getElementsByTagName('tbody')[0];
-    // tabela.innerHTML = ''; 
+     tabela.innerHTML = ''; 
 
     // Páginas são baseadas no índice, então calculamos o intervalo de dados a exibir
     const inicio = (paginaAtual - 1) * itensPorPagina;
