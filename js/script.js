@@ -43,7 +43,7 @@ function atualizarTabela() {
         celulaSetor.textContent = item.setor;
 
         const celulaSalario = document.createElement('td');
-        celulaSalario.textContent = item.liquido;
+        celulaSalario.textContent = "R$ " + item.liquido;
 
         linha.appendChild(celulaNome);
         linha.appendChild(celulaCargo);
