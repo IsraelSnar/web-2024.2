@@ -93,8 +93,26 @@ document.getElementById('prevBtn').addEventListener('click', () => mudarPagina('
 document.getElementById('nextBtn').addEventListener('click', () => mudarPagina('next'));
 document.getElementById('itensPorPagina').addEventListener('change', alterarItensPorPagina);
 
-
 document.addEventListener('DOMContentLoaded', function () {
     pegar();
+
+    document.getElementById("filtroValor").addEventListener("input", function () {
+        let filtroTipo = document.getElementById("filtroTipo").value;
+        let filtroValor = this.value.toLowerCase();
+        let linhas = document.querySelectorAll("#tabelaDados tr");
+
+        linhas.forEach(linha => {
+            let coluna;
+            switch (filtroTipo) {
+                case "nome": coluna = 0; break;
+                case "cargo": coluna = 1; break;
+                case "setor": coluna = 2; break;
+                case "salario": coluna = 3; break;
+            }
+
+            let textoColuna = linha.cells[coluna].textContent.toLowerCase();
+            linha.style.display = textoColuna.includes(filtroValor) ? "" : "none";
+        });
+    });
 });
 

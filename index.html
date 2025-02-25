@@ -1,43 +1,121 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prefeitura de Quixadá</title>
+    <!-- Ícone no título -->
+    <link rel="icon" type="image/png" href="brasao.png">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+
     <style>
-        /* Gradiente animado 
+        /* Fundo da página */
         body {
-            background: linear-gradient(45deg, #9aabc9, #879ec5, #6f8abb);
-            background-size: 300% 300%;
-            animation: gradientAnimation 6s infinite alternate;
+            background: linear-gradient(135deg, #dfe0e2, #6e6e74);
             color: white;
+            font-family: Arial, sans-serif;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
+        /* Container principal */
         .container {
-            background: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente 
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
+        /* Título */
+        h1,
+        h2 {
+            color: #343a40;
+            font-weight: bold;
+        }
+
+        /* Estilização do brasão */
+        .brasao {
+            display: block;
+            margin: 0 auto 20px auto;
+            /* Centraliza e adiciona margem inferior */
+            width: 120px;
+            /* Ajuste conforme necessário */
+            height: auto;
+        }
+
+        /* Estilização da Tabela */
         table {
             background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+            padding: 12px;
+        }
+
+        /* Cabeçalho da tabela */
+        .table-dark {
+            background-color: #343a40 !important;
+            color: white;
+        }
+
+        /* Botões */
+        button {
+            background-color: #24272b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #3a497c;
+        }
+
+        /* Estilização dos Selects e Inputs */
+        select,
+        input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        /* Espaçamento nos filtros e paginação */
+        .row.mb-3,
+        #paginacao,
+        label {
             color: black;
-        }*/
+            margin-bottom: 15px;
+        }
+
+        /* Alinhamento da paginação */
+        #paginacao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container mt-5">
+        <!-- Brasão da cidade -->
+        <img src="brasao.png" alt="Brasão de Quixadá" class="brasao">
+
         <h1 class="text-center">Prefeitura de Quixadá</h1></br>
         <h2 class="text-center">Tabela de Funcionários</h2></br>
 
@@ -45,17 +123,21 @@
         <div class="row mb-3">
             <div class="col-md-4">
                 <select id="filtroTipo" class="form-select">
+                    <option value="" disabled selected>Pesquisar por...</option>
                     <option value="nome">Nome</option>
                     <option value="cargo">Cargo</option>
                     <option value="setor">Setor</option>
                     <option value="salario">Salário</option>
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 d-flex">
                 <input type="text" id="filtroValor" class="form-control" placeholder="Digite para filtrar...">
+               
             </div>
-        </div>
 
+        </div>
+        </br>
+        <!--Paginacao no index-->
         <div id="paginacao">
             <button id="prevBtn">Anterior</button>
             <span id="paginaAtual"></span>
@@ -78,6 +160,7 @@
                     <th>Setor</th>
                     <th>Salário</th>
                 </tr>
+
             </thead>
             <tbody id="tabelaDados">
             </tbody>
@@ -87,27 +170,6 @@
     <script src="js/script.js"></script>
     <!-- Bootstrap JS + Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        document.getElementById("filtroValor").addEventListener("input", function () {
-            let filtroTipo = document.getElementById("filtroTipo").value;
-            let filtroValor = this.value.toLowerCase();
-            let linhas = document.querySelectorAll("#tabelaDados tr");
-
-            linhas.forEach(linha => {
-                let coluna;
-                switch (filtroTipo) {
-                    case "nome": coluna = 0; break;
-                    case "cargo": coluna = 1; break;
-                    case "setor": coluna = 2; break;
-                    case "salario": coluna = 3; break;
-                }
-
-                let textoColuna = linha.cells[coluna].textContent.toLowerCase();
-                linha.style.display = textoColuna.includes(filtroValor) ? "" : "none";
-            });
-        });
-    </script>
 </body>
 
 </html>

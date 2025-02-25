@@ -6,7 +6,7 @@ const cors = require('cors'); // api
 let data;
 const app = express();
 
-readFile('data.json', 'utf8', (err, jsonString) => {
+readFile('js/data.json', 'utf8', (err, jsonString) => {
     if (err) { 
         console.log("File read failed:", err)
         return
